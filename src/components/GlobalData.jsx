@@ -43,7 +43,7 @@ const GlobalData = ({ children }) => {
 
   // Binary Search for the faster result
   const handleSearch = (e) => {
-    const target = e.target.value;
+    const target = e.target.value.toLowerCase();
 
     const sortedUsers = sortByName();
 
