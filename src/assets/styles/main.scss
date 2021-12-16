@@ -1,0 +1,77 @@
+@import "./utility.scss";
+
+/* Table */
+
+.table-wrapper {
+    margin: 0 auto;
+    max-width: 50rem;
+    min-width: 80%;
+    overflow-x: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: $primary-clr $light-clr;
+    &::-webkit-scrollbar {
+        width: 1.5rem;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: 1rem;
+        box-shadow: inset 0 0 0.5rem $primary-clr-500;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background-color: $primary-clr;
+    }
+}
+
+table {
+    max-width: 55rem;
+    min-width: 55rem;
+    table-layout: fixed;
+    margin: 4rem auto 0rem auto;
+    border-collapse: collapse;
+    border: 3px solid $primary-clr-500;
+    font-size: 1.3rem;
+    background-color: $primary-clr-500;
+    thead {
+        color: $white-clr;
+        th {
+            letter-spacing: 0.2rem;
+            font-weight: bold;
+        }
+    }
+    th,
+    td {
+        padding: 1rem;
+        text-align: center;
+    }
+    tbody {
+        tr:nth-child(odd) {
+            background: linear-gradient(250deg, $primary-clr, $primary-clr-500);
+            color: $white-clr;
+        }
+        tr:nth-child(even) {
+            background: linear-gradient(250deg, $white-clr, $light-clr);
+            color: $black-clr;
+        }
+        td {
+            letter-spacing: 1px;
+            img {
+                width: 4rem;
+                height: 4rem;
+                object-fit: cover;
+                border-radius: 50%;
+                transition: $smooth;
+                &:hover {
+                    transform: scale(1.05);
+                }
+            }
+        }
+    }
+    caption {
+        padding: 1rem;
+        font-style: italic;
+        caption-side: bottom;
+        color: $black-clr-500;
+        text-align: right;
+        letter-spacing: 1px;
+    }
+}
