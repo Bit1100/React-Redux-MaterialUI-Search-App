@@ -1,6 +1,6 @@
 # Walk through of the Project
 
-The project deals with the searching of the users,which we get on form submission from the table on the fly. The project is the combo of React, Redux and MaterialUI. The other details are as follows:
+The project deals with the searching of the users,which we get on form submission from the table on the fly. Initially, the project starts with the form. On form submission, all the data will be captured and placed into the table. The project also contains the search options where data on the table can be filtered on the fly. The project is the combo of React, Redux and MaterialUI. The other details are as follows:
 
 ## Styling
 
@@ -16,7 +16,7 @@ Beautifully Used localStorage to hold the data permanently unless it's being man
 
 ## State Management
 
-Used Redxu for catering all the components data needs.
+Used Redux for catering all the components data needs.
 
 ## Best Practices
 
