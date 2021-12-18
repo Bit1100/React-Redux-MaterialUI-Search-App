@@ -1,9 +1,13 @@
-import { useContext } from "react";
-import { context } from "../context";
 import UserData from "./UserData";
+import { connect } from "react-redux";
+import { sortUsers } from "../redux";
 
-const Table = () => {
-  const { formData, filterData, handleSorting } = useContext(context);
+const Table = ({ formUsers, filteredUsers, sortUsrs }) => {
+  // Sorting the array of objects based on Full Name
+  const handleSorting = () => {
+    sortUsrs(formUsers);
+  };
+
   return (
     <div className="table-wrapper">
       <table>
@@ -18,11 +22,11 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {filterData.length > 0
-            ? filterData.map((user) => {
+          {filteredUsers.length > 0
+            ? filteredUsers.map((user) => {
                 return <UserData key={user.id} user={user} />;
               })
-            : formData.map((user) => {
+            : formUsers.map((user) => {
                 return <UserData key={user.id} user={user} />;
               })}
         </tbody>
@@ -31,4 +35,13 @@ const Table = () => {
   );
 };
 
-export default Table;
+const mapStateToProps = (state) => ({
+  formUsers: state.form.formUsers,
+  filteredUsers: state.filter.users,
+});
+
+const mapStateToDispatch = (dispatch) => ({
+  sortUsrs: (users) => dispatch(sortUsers(users)),
+});
+
+export default connect(mapStateToProps, mapStateToDispatch)(Table);

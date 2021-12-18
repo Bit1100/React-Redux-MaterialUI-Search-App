@@ -1,10 +1,39 @@
 import { Grid, TextField, Button } from "@material-ui/core";
-import { useState, useContext } from "react";
-import { context } from "../context";
+import { useState } from "react";
+import { connect } from "react-redux";
+import { filterUsers, sortUsers } from "../redux/";
 
-const Search = () => {
+const Search = ({ formUsers, sortUsrs, filterUsrs }) => {
   const [search, setSearch] = useState("");
-  const { handleSearch } = useContext(context);
+
+  // Binary Search for the faster result
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+
+    const target = e.target.value.toLowerCase();
+
+    sortUsrs(formUsers);
+
+    let low = 0;
+    let high = formUsers.length - 1;
+
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+
+      if (formUsers[mid].fullName.toLowerCase().includes(target)) {
+        const filterUsers = formUsers.filter((item) =>
+          item.fullName.toLowerCase().includes(target)
+        );
+        filterUsrs(filterUsers);
+      }
+
+      if (formUsers[mid].fullName.toLowerCase() > target) {
+        high = mid - 1;
+      } else {
+        low = mid + 1;
+      }
+    }
+  };
 
   return (
     <Grid
@@ -20,10 +49,7 @@ const Search = () => {
           label="Search Here"
           name="searchBox"
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            handleSearch(e);
-          }}
+          onChange={handleSearch}
           placeholder="Search the users"
           variant="outlined"
           required
@@ -44,4 +70,13 @@ const Search = () => {
   );
 };
 
-export default Search;
+const mapStateToProps = (state) => ({
+  formUsers: state.form.formUsers,
+});
+
+const mapStateToDispatch = (dispatch) => ({
+  sortUsrs: (users) => dispatch(sortUsers(users)),
+  filterUsrs: (users) => dispatch(filterUsers(users)),
+});
+
+export default connect(mapStateToProps, mapStateToDispatch)(Search);

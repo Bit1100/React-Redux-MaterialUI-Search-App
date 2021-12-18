@@ -1,4 +1,6 @@
-import { useState, useContext } from "react";
+import { connect } from "react-redux";
+import { useState } from "react";
+import { addUsers } from "../redux";
 import {
   Typography,
   Card,
@@ -7,7 +9,6 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
-import { context } from "../context";
 
 const initialFormValues = {
   fullName: "",
@@ -15,10 +16,8 @@ const initialFormValues = {
   email: "",
 };
 
-const Form = () => {
+const Form = ({ addUsers }) => {
   const [values, setValues] = useState(initialFormValues);
-
-  const { handleSubmit } = useContext(context);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +25,22 @@ const Form = () => {
       ...values,
       [name]: value,
     });
+  };
+
+  // Submit the formdata
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { fullName, lastName, email } = e.target;
+
+    // Pushing the new user record to the formData at the end
+    addUsers({
+      fullName: fullName.value,
+      lastName: lastName.value,
+      email: email.value,
+    });
+
+    resetFormValues();
   };
 
   const resetFormValues = () => {
@@ -44,12 +59,7 @@ const Form = () => {
       </Typography>
       <Card style={{ maxWidth: 450, margin: "0 auto", padding: "20px" }}>
         <CardContent>
-          <form
-            onSubmit={(e) => {
-              handleSubmit(e);
-              resetFormValues();
-            }}
-          >
+          <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid xs={12} item>
                 <TextField
@@ -108,4 +118,8 @@ const Form = () => {
   );
 };
 
-export default Form;
+const mapStateToDispatch = (dispatch) => ({
+  addUsers: (user) => dispatch(addUsers(user)),
+});
+
+export default connect(null, mapStateToDispatch)(Form);
