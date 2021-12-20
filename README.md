@@ -16,8 +16,8 @@ Beautifully Used localStorage to hold the data permanently unless it's being man
 
 ## State Management
 
-Used Redux for catering all the components data needs.
+Used Redux and its hooks - useSelector() and useDispatch() hooks for catering all the components data needs.
 
 ## Best Practices
 
-Files are well-organised, components, context, storage, images, styles and are in separate file making app structure clear to understand and scalable in nature.
+Function Composition using pipe(), Files are well-organised, components, context, storage, images, styles and are in separate file making app structure clear to understand and scalable in nature.

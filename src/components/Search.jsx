@@ -1,9 +1,12 @@
 import { Grid, TextField, Button } from "@material-ui/core";
 import { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterUsers, sortUsers } from "../redux/";
 
-const Search = ({ formUsers, sortUsrs, filterUsrs }) => {
+const Search = () => {
+  const dispatch = useDispatch();
+  const formUsers = useSelector((state) => state.form.formUsers);
+
   const [search, setSearch] = useState("");
 
   // Binary Search for the faster result
@@ -12,7 +15,7 @@ const Search = ({ formUsers, sortUsrs, filterUsrs }) => {
 
     const target = e.target.value.toLowerCase();
 
-    sortUsrs(formUsers);
+    dispatch(sortUsers(formUsers));
 
     let low = 0;
     let high = formUsers.length - 1;
@@ -21,10 +24,10 @@ const Search = ({ formUsers, sortUsrs, filterUsrs }) => {
       const mid = Math.floor((low + high) / 2);
 
       if (formUsers[mid].fullName.toLowerCase().includes(target)) {
-        const filterUsers = formUsers.filter((item) =>
+        const filterUsrs = formUsers.filter((item) =>
           item.fullName.toLowerCase().includes(target)
         );
-        filterUsrs(filterUsers);
+        dispatch(filterUsers(filterUsrs));
       }
 
       if (formUsers[mid].fullName.toLowerCase() > target) {
@@ -70,13 +73,4 @@ const Search = ({ formUsers, sortUsrs, filterUsrs }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  formUsers: state.form.formUsers,
-});
-
-const mapStateToDispatch = (dispatch) => ({
-  sortUsrs: (users) => dispatch(sortUsers(users)),
-  filterUsrs: (users) => dispatch(filterUsers(users)),
-});
-
-export default connect(mapStateToProps, mapStateToDispatch)(Search);
+export default Search;

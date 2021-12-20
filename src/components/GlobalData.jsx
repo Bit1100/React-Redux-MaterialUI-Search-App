@@ -1,15 +1,19 @@
 import { useEffect } from "react";
 import { getUsers, setUsers } from "../Utils/storage";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUsers as getUsersRedux } from "../redux";
+import { pipe } from "lodash/fp";
 
-const GlobalData = ({ children, formUsers, setFormUsers }) => {
+const GlobalData = ({ children }) => {
+  const dispatch = useDispatch();
+  const formUsers = useSelector((state) => state.form);
+
   // Getting the data from localStorage on Page Refresh
   useEffect(() => {
-    setFormUsers(getUsers().formUsers);
-  }, [setFormUsers]);
-  // Storing the new data into the localStorage
+    pipe(getUsersRedux, dispatch)(getUsers().formUsers);
+  }, [dispatch]);
 
+  // Storing the new data into the localStorage
   useEffect(() => {
     setUsers(formUsers);
   }, [formUsers]);
@@ -17,12 +21,4 @@ const GlobalData = ({ children, formUsers, setFormUsers }) => {
   return <>{children}</>;
 };
 
-const mapStateToProps = (state) => ({
-  formUsers: state.form,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setFormUsers: (users) => dispatch(getUsersRedux(users)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(GlobalData);
+export default GlobalData;

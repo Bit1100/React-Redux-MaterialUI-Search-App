@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { addUsers } from "../redux";
 import {
@@ -16,7 +16,9 @@ const initialFormValues = {
   email: "",
 };
 
-const Form = ({ addUsers }) => {
+const Form = () => {
+  const dispatch = useDispatch();
+
   const [values, setValues] = useState(initialFormValues);
 
   const handleChange = (e) => {
@@ -34,11 +36,13 @@ const Form = ({ addUsers }) => {
     const { fullName, lastName, email } = e.target;
 
     // Pushing the new user record to the formData at the end
-    addUsers({
-      fullName: fullName.value,
-      lastName: lastName.value,
-      email: email.value,
-    });
+    dispatch(
+      addUsers({
+        fullName: fullName.value,
+        lastName: lastName.value,
+        email: email.value,
+      })
+    );
 
     resetFormValues();
   };
@@ -118,8 +122,4 @@ const Form = ({ addUsers }) => {
   );
 };
 
-const mapStateToDispatch = (dispatch) => ({
-  addUsers: (user) => dispatch(addUsers(user)),
-});
-
-export default connect(null, mapStateToDispatch)(Form);
+export default Form;

@@ -1,11 +1,15 @@
 import UserData from "./UserData";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sortUsers } from "../redux";
 
-const Table = ({ formUsers, filteredUsers, sortUsrs }) => {
+const Table = () => {
+  const dispatch = useDispatch();
+  const formUsers = useSelector((state) => state.form.formUsers);
+  const filteredUsers = useSelector((state) => state.filter.users);
+
   // Sorting the array of objects based on Full Name
   const handleSorting = () => {
-    sortUsrs(formUsers);
+    dispatch(sortUsers(formUsers));
   };
 
   return (
@@ -35,13 +39,4 @@ const Table = ({ formUsers, filteredUsers, sortUsrs }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  formUsers: state.form.formUsers,
-  filteredUsers: state.filter.users,
-});
-
-const mapStateToDispatch = (dispatch) => ({
-  sortUsrs: (users) => dispatch(sortUsers(users)),
-});
-
-export default connect(mapStateToProps, mapStateToDispatch)(Table);
+export default Table;
